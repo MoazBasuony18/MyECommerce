@@ -1,0 +1,100 @@
+﻿@model IEnumerable<MyECommerce.Models.Products>
+
+<div class="row">
+    <div class="col-6">
+        <h2 class="text-info">Product List</h2>
+    </div>
+
+    <div class="col-6 text-right">
+        <a asp-action="Create" class="btn btn-outline-primary"><i class="fas fa-plus"></i>&nbsp; Add New Product</a>
+    </div>
+</div>
+<form  method="post">
+    <div class="row">
+        <div class="col-3">
+            <input type="number" class="form-control" placeholder="Low cost" name="lowAmount" />
+        </div>
+        <div class="col-3">
+            <input type="number" class="form-control" placeholder="Top cost" name="largeAmount" />
+        </div>
+        <div class="col-3">
+            <input type="submit" class="btn btn-outline-success" value="Search" />
+        </div>
+        <div class="col-3"></div>
+    </div>
+</form>
+<br />
+<table class="table" id="myTable">
+    <thead>
+        <tr class="table-info">
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductColor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsAvailable)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductTypes.ProductType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TagNames.TagName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductColor)
+                </td>
+                <td>
+                    @if (item.IsAvailable == true)
+                    {
+                    <span>Available</span>
+                    }
+                    else
+                    {
+                <span>Not Available</span>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductTypes.ProductType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TagNames.TagName)
+                </td>
+                <td>
+                    <partial name="_ProductButtonPartial " model="@item.Id" />
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section scripts{
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#myTable').DataTable();
+        });
+        $(function () {
+            var save = '@TempData["save"]'
+            if (save != null) {
+                alertify.success(save);
+            }
+        })
+    </script>
+}

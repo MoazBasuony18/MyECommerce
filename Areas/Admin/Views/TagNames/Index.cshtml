@@ -1,0 +1,47 @@
+﻿@model IEnumerable<MyECommerce.Models.TagNames>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<div class="row">
+    <div class="col-6">
+        <h2 class="text-info">Tag Name List</h2>
+    </div>
+    <div class="col-6 text-right">
+        <a asp-action="Create" class="btn btn-outline-primary"><i class="fas fa-plus"></i>&nbsp;New Tag Name</a>
+    </div>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.TagName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TagName)
+                </td>
+                <td>
+                    <partial name="_TagButtonPartial" model="@item.Id" />
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section scripts{
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            var save = '@TempData["save"]'
+            if (save != null) {
+                alertify.success(save);
+            }
+        })
+    </script>
+    }
